@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Listing Books</title>
+
+    <script src = "js/angularjs175min.js"></script>
+    <script src = "js/BookController.js"></script>
+    <script src = "js/bootstrap.min.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body ng-app = "firstApp">
+<div ng-controller = "BookListController" class="m-4">
+    <div ng-show = "!showDetails" class="mb-4">
+        <h3>Header of the Book list</h3>
+    </div>
+
+    <div ng-show = "!showDetails" class="table table-hover table-responsive table-bordered">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">BookId</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="book in pagedBooks[currentPage-1]">
+                <th scope="row">{{book.ID}}</th>
+                <td>{{book.Title}}</td>
+                <td>{{book.Description}}</td>
+                <td>
+                    <a href="#" class="badge badge-info" ng-click="goToBookDetails(book.ID);">Details</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav ng-show = "!showDetails" aria-label="Pagination">
+        <ul class="pagination">
+            <li class="page-item" ng-class="{'page-item disabled': currentPage == 1}">
+                <a class="page-link" href="#" tabindex="-1" ng-click="prevPage()">« Prev</a>
+            </li>
+            <li class="page-item" ng-class="{'page-item active': n == currentPage}" ng-repeat="n in range(pagedBooks.length, currentPage, gap)">
+                <a class="page-link" href="#" ng-bind="n" ng-click="setPage()">1</a>
+            </li>
+            <li class="page-item" ng-class="{'page-item disabled': currentPage == pagedBooks.length}">
+                <a class="page-link" href="#" ng-click="nextPage()">Next »</a>
+            </li>
+        </ul>
+    </nav>
+    <div ng-show = "showDetails">
+        <h3>BOOK DETAIL</h3>
+        <p><b>Title:</b></br> {{bookDetail.data.Title}}</p>
+        <p><b>Description:</b></br> {{bookDetail.data.Description}}</p>
+        <p><b>PageCount:</b></br> {{bookDetail.data.PageCount}}</p>
+        <p><b>PublishDate:</b></br> {{bookDetail.data.PublishDate | date : fulldate}}</p>
+        <p><b>Excerpt:</b></br> {{bookDetail.data.Excerpt}}</p>
+        <button type="button" class="btn btn-secondary" ng-click="showDetails = false">BACK</button>
+    </div>
+</div>
+
+</body>
+</html>
